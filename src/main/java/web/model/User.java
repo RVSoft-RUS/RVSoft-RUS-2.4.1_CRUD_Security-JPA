@@ -34,30 +34,10 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @ManyToMany(fetch = FetchType.EAGER) //, cascade = CascadeType.ALL
-//    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;// = new HashSet<>()
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     public User() { }
-
-//    public User(String name, String surname, int age) {
-//        this.name = name;
-//        this.surname = surname;
-//        this.age = age;
-//    }
-//
-//    public User(long id, String name, String surname, int age) {
-//        this(name, surname, age);
-//        this.id = id;
-//    }
-//
-//    public User(String login, String password, String role, String name, String surname, int age) {
-//        this(name, surname, age);
-//        this.login = login;
-//        this.password = password;
-//        this.role = role;
-//    }
 
     public User(String login, String password, String role, String name, String surname, int age, Set<Role> roles) {
         this.name = name;
@@ -167,7 +147,6 @@ public class User implements UserDetails {
     public String getRole() {
         return role;
     }
-
 
     @Override
     public int hashCode() {

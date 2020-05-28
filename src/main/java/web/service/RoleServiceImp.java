@@ -7,8 +7,12 @@ import web.model.Role;
 
 @Service
 public class RoleServiceImp implements RoleService {
-    @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
 
     @Override
     public Role getRoleByName(String name) {

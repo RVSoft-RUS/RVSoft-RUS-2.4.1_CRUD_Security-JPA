@@ -23,9 +23,12 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan(value = "web")
 public class HibernateConfig {
+   private Environment environment;
 
    @Autowired
-   private Environment environment;
+   public void setEnvironment(Environment environment) {
+      this.environment = environment;
+   }
 
    @Bean
    public DataSource getDataSource() {

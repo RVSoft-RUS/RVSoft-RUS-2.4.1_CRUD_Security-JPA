@@ -17,12 +17,14 @@ import java.util.List;
 
 @Service
 public class UserServiceImp implements UserService {
+   private final UserDao userDao;
+   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
    @Autowired
-   private UserDao userDao;
-
-   @Autowired
-   private BCryptPasswordEncoder bCryptPasswordEncoder;
+   public UserServiceImp(UserDao userDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
+      this.userDao = userDao;
+      this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+   }
 
    @Transactional
    @Override

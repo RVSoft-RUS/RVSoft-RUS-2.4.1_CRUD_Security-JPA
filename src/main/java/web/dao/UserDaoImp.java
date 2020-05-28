@@ -11,9 +11,12 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
+   private SessionFactory sessionFactory;
 
    @Autowired
-   private SessionFactory sessionFactory;
+   public void setSessionFactory(SessionFactory sessionFactory) {
+      this.sessionFactory = sessionFactory;
+   }
 
    @Override
    public void addUser(User user) {
@@ -34,7 +37,6 @@ public class UserDaoImp implements UserDao {
 
    @Override
    public User getUserById(long id) {
-//      return (User) sessionFactory.getCurrentSession().byId(String.valueOf(id));
       User user = (User) sessionFactory.getCurrentSession().createQuery("from User WHERE id= :id")
               .setParameter("id", id)
               .uniqueResult();
@@ -48,7 +50,6 @@ public class UserDaoImp implements UserDao {
 
    @Override
    public User getUserByLogin(String login) {
-      //if NULL ?????????????
       User user = (User) sessionFactory.getCurrentSession()
               .createQuery("from User WHERE login= :login")
               .setParameter("login", login)

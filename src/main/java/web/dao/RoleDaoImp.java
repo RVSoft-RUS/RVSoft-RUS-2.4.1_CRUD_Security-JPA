@@ -9,8 +9,12 @@ import web.model.User;
 
 @Repository
 public class RoleDaoImp implements RoleDao {
-    @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     @Transactional(readOnly = true)
