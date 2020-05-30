@@ -1,6 +1,8 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,16 +20,22 @@ import java.util.*;
 @Controller
 @RequestMapping("/")
 public class UsersController {
-	private final UserService userService;
-	private final RoleService roleService;
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
 	@Autowired
-	public UsersController(UserService userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-		this.userService = userService;
-		this.roleService = roleService;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-	}
+	@Qualifier("userServiceImp")
+	private UserService userService;
+	@Autowired
+	@Qualifier("roleServiceImp")
+	private RoleService roleService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+//	@Autowired
+//	public UsersController(UserService userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+//
+//		this.userService = userService;
+//		this.roleService = roleService;
+//		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+//	}
 
 	@RequestMapping(value = "hello", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {

@@ -9,10 +9,14 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import web.model.Role;
 import web.model.User;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
@@ -44,7 +48,7 @@ public class HibernateConfig {
    public LocalSessionFactoryBean getSessionFactory() {
       LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
       factoryBean.setDataSource(getDataSource());
-      
+
       Properties props=new Properties();
       props.put("hibernate.show_sql", environment.getProperty("hiber.show_sql"));
       props.put("hibernate.hbm2ddl.auto", environment.getProperty("hiber.hbm2ddl.auto"));
@@ -54,10 +58,30 @@ public class HibernateConfig {
       return factoryBean;
    }
 
-   @Bean
-   public HibernateTransactionManager getTransactionManager() {
-      HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-      transactionManager.setSessionFactory(getSessionFactory().getObject());
-      return transactionManager;
+//   @Bean
+//   public HibernateTransactionManager getTransactionManager() {
+//      HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+//      transactionManager.setSessionFactory(getSessionFactory().getObject());
+//      return transactionManager;
+//   }
+
+   @Bean(name = "emf")
+   LocalContainerEntityManagerFactoryBean getEM() {
+      LocalContainerEntityManagerFactoryBean entityManagerFactoryBean =
+              new LocalContainerEntityManagerFactoryBean();
+
+      entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+      entityManagerFactoryBean.setDataSource(getDataSource());
+      entityManagerFactoryBean.setPackagesToScan("/web/model");
+//      entityManagerFactoryBean.setJpaProperties(getHibernateProperties());
+
+      return entityManagerFactoryBean;
+   }
+
+   @Bean(name = "jpaTrans")
+   JpaTransactionManager getJpaTransactionManager() {
+      JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+      jpaTransactionManager.setEntityManagerFactory(getEM().getObject());
+      return jpaTransactionManager;
    }
 }
