@@ -10,6 +10,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,41 +21,41 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableJpaRepositories("web.dao")
 public class DataConfig {
-    private DataSource dataSource;
-
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    @Bean
-    LocalContainerEntityManagerFactoryBean getEM() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean =
-                new LocalContainerEntityManagerFactoryBean();
-
-        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        entityManagerFactoryBean.setDataSource(dataSource);
-        entityManagerFactoryBean.setPackagesToScan("/web/model");
-//        entityManagerFactoryBean.setJpaProperties(getHibernateProperties());
-
-        return entityManagerFactoryBean;
-    }
-
-    private Properties getHibernateProperties() {
-        try {
-            Properties properties = new Properties();
-            InputStream is = getClass().getClassLoader().getResourceAsStream("hiber.properties");
-            properties.load(is);
-            return properties;
-        } catch (IOException ex) {
-            throw new IllegalArgumentException("Can't find hiber.properties");
-        }
-    }
-
-    @Bean
-    public PlatformTransactionManager platformTransactionManager() {
-        JpaTransactionManager manager = new JpaTransactionManager();
-        manager.setEntityManagerFactory(getEM().getObject());
-        return manager;
-    }
+//    private DataSource dataSource;
+//
+//    @Autowired
+//    public void setDataSource(DataSource dataSource) {
+//        this.dataSource = dataSource;
+//    }
+//
+//    @Bean
+//    EntityManagerFactory getEMF() {
+//        EntityManagerFactory entityManagerFactoryBean =
+//                Persistence.createEntityManagerFactory("rvs.");
+//
+//        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+//        entityManagerFactoryBean.setDataSource(dataSource);
+//        entityManagerFactoryBean.setPackagesToScan("/web/model");
+////        entityManagerFactoryBean.setJpaProperties(getHibernateProperties());
+//
+//        return entityManagerFactory;
+//    }
+//
+//    private Properties getHibernateProperties() {
+//        try {
+//            Properties properties = new Properties();
+//            InputStream is = getClass().getClassLoader().getResourceAsStream("hiber.properties");
+//            properties.load(is);
+//            return properties;
+//        } catch (IOException ex) {
+//            throw new IllegalArgumentException("Can't find hiber.properties");
+//        }
+//    }
+//
+//    @Bean
+//    public PlatformTransactionManager platformTransactionManager() {
+//        JpaTransactionManager manager = new JpaTransactionManager();
+//        manager.setEntityManagerFactory(getEMF().getObject());
+//        return manager;
+//    }
 }

@@ -15,7 +15,7 @@ import javax.persistence.TypedQuery;
 @Component
 //@Transactional("jpaTrans")
 public class RoleDaoImp implements RoleDao {//
-    @PersistenceContext(unitName = "emf")
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override

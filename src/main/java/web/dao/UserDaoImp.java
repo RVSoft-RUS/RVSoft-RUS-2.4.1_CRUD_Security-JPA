@@ -20,7 +20,7 @@ public class UserDaoImp implements UserDao {//
 //   @Autowired
 //   private SessionFactory sessionFactory;
 
-    @PersistenceContext(unitName = "emf")
+    @PersistenceContext
     private EntityManager entityManager;
 //
 ////   entityManagerFactory = Persistence.createEntityManagerFactory
