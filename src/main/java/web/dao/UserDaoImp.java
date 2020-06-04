@@ -1,34 +1,19 @@
 package web.dao;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Component
-@Transactional(readOnly = true)
+@Repository
 public class UserDaoImp implements UserDao {//
-//   @Autowired
-//   private SessionFactory sessionFactory;
 
     @PersistenceContext
     private EntityManager entityManager;
-//
-////   entityManagerFactory = Persistence.createEntityManagerFactory
-////
-//   @Autowired
-//   public void setSessionFactory(EntityManager entityManager) {
-//      this.entityManager = entityManager;
-//   }
 
     @Override
     @Transactional
@@ -37,18 +22,18 @@ public class UserDaoImp implements UserDao {//
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
         return entityManager.createQuery("select u from User u", User.class).getResultList();
     }
 
     @Override
-    @Transactional("jpaTrans")
+    @Transactional
     public void deleteUser(User user) {
         entityManager.remove(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserById(long id) {
         TypedQuery<User> query = entityManager
                 .createQuery("select u from User u WHERE u.id= :id", User.class);
@@ -57,11 +42,13 @@ public class UserDaoImp implements UserDao {//
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
-        entityManager.persist(user);
+        entityManager.merge(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserByLogin(String login) {
         TypedQuery<User> query = entityManager
                 .createQuery("select u from User u WHERE u.login= :login", User.class);
@@ -70,6 +57,7 @@ public class UserDaoImp implements UserDao {//
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isExistLogin(String login) {
         TypedQuery<User> query = entityManager
                 .createQuery("select u from User u WHERE u.login= :login", User.class);

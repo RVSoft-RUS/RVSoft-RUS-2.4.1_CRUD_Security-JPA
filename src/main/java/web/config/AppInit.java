@@ -5,7 +5,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
-//@Order(1)
 public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
     // Метод, указывающий на класс конфигурации
     @Override
@@ -35,6 +34,4 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         characterEncodingFilter.setEncoding("UTF-8");
         return new Filter[]{characterEncodingFilter};
     }
-
-
 }

@@ -41,12 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        /**
-         * Привязываем наш {@link AuthProviderImpl}
-         */
 //        auth.authenticationProvider(authProvider);
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-//        auth.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 
     @Override
@@ -57,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
-//                .permitAll()
+                .permitAll()
                 .failureUrl("/login?error=true");
         http.logout()
                 .permitAll()

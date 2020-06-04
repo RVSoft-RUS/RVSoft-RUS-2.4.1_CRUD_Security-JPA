@@ -16,7 +16,6 @@ import web.model.User;
 import java.util.List;
 
 @Service
-//@Transactional("jpaTrans")
 public class UserServiceImp implements UserService {
    private final UserDao userDao;
    private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -64,24 +63,12 @@ public class UserServiceImp implements UserService {
    @Transactional(readOnly = true)
    @Override
    public User getUserByLogin(String login) {
-//      List<User> list = userDao.findAll();
-//      for (User user : list) {
-//         if (user.getLogin().equals(login)){
-//            return user;
-//         }
-//      }
       return userDao.getUserByLogin(login);
    }
 
    @Transactional(readOnly = true)
    @Override
    public boolean isExistLogin(String login) {
-//      List<User> list = userDao.findAll();
-//      for (User user : list) {
-//         if (user.getLogin().equals(login)){
-//            return true;
-//         }
-//      }
       return userDao.isExistLogin(login);
    }
 

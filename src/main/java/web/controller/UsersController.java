@@ -20,22 +20,18 @@ import java.util.*;
 @Controller
 @RequestMapping("/")
 public class UsersController {
-	@Autowired
 	@Qualifier("userServiceImp")
-	private UserService userService;
-	@Autowired
+	private final UserService userService;
 	@Qualifier("roleServiceImp")
-	private RoleService roleService;
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final RoleService roleService;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//	@Autowired
-//	public UsersController(UserService userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-//
-//		this.userService = userService;
-//		this.roleService = roleService;
-//		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//	}
+	@Autowired
+	public UsersController(UserService userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.userService = userService;
+		this.roleService = roleService;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
 	@RequestMapping(value = "hello", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
